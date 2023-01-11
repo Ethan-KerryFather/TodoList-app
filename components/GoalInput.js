@@ -29,16 +29,16 @@ function GoalInput({ addGoalHandler, visible, setVisible, setCourseGoals }) {
   }
 
   function clearAllBtnHandler() {
-    Alert.alert("Todo를 모두 지웁니다", "복구되지 않습니다", [
+    Alert.alert("delete all TODOs", "cannot be restored later", [
       {
-        text: "네",
+        text: "Yes, I want",
         onPress: () => {
           setCourseGoals([]);
           setVisible(!visible);
         },
         style: "destructive",
       },
-      { text: "아니요" },
+      { text: "No" },
     ]);
   }
 

@@ -2,8 +2,6 @@ import { StyleSheet, View, Text, Pressable } from "react-native";
 import Colors from "./Colors";
 
 function GoalItem(props) {
-  console.log(`rendered : ${props.text}`);
-
   return (
     <View
       style={[

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Project1",
-    "slug": "Project1",
+    "name": "TODO",
+    "slug": "todolist",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,16 +18,25 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.limsoft0401.todolist"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "91160d95-290d-448e-b1ea-05a12609c18a"
+      }
+    },
+    "owner": "limsoft0401"
   }
 }
