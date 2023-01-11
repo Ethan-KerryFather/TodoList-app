@@ -1,6 +1,6 @@
 import { StyleSheet, View, FlatList, Button, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 import Colors from "./components/Colors";
@@ -27,65 +27,36 @@ function App() {
   */
 
   useEffect(() => {
-    // mount
-    storage
-      .load({
-        key: "todos",
-
-        // autoSync (default: true) means if data is not found or has expired,
-        // then invoke the corresponding sync method
-        autoSync: true,
-
-        // syncInBackground (default: true) means if data expired,
-        // return the outdated data first while invoking the sync method.
-        // If syncInBackground is set to false, and there is expired data,
-        // it will wait for the new data and return only after the sync completed.
-        // (This, of course, is slower)
-        syncInBackground: true,
-
-        // you can pass extra params to the sync method
-        // see sync example below
-        syncParams: {
-          extraFetchOptions: {
-            // blahblah
-          },
-          someFlag: true,
-        },
-      })
-      .then((ret) => {
-        // found data go to then()
-        console.log(ret.courseGoals);
-        setCourseGoals([...ret.courseGoals]);
-      })
-      .catch((err) => {
-        // any exception including data not found
-        // goes to catch()
-        console.warn(err.message);
-        switch (err.name) {
-          case "NotFoundError":
-            // TODO;
-            console.log("ERROR : not found error");
-            break;
-          case "ExpiredError":
-            // TODO
-            break;
-        }
-      });
     return () => {
-      // unmount
-      console.log("unmount");
-      storage.save({
-        key: "todos", // Note: Do not use underscore("_") in key!
-        data: {
-          courseGoals: courseGoals,
-        },
-
-        // if expires not specified, the defaultExpires will be applied instead.
-        // if set to null, then it will never expire.
-        expires: 1000 * 3600,
-      });
+      storage
+        .load({
+          key: "todos",
+          autoSync: true,
+          syncInBackground: true,
+          syncParams: {
+            extraFetchOptions: {},
+            someFlag: true,
+          },
+        })
+        .then((ret) => {
+          // found data go to then()
+          console.log(JSON.stringify(ret.courseGoals));
+        })
+        .catch((err) => {
+          // any exception including data not found
+          // goes to catch()
+          console.warn(err.message);
+          switch (err.name) {
+            case "NotFoundError":
+              // TODO;
+              break;
+            case "ExpiredError":
+              // TODO
+              break;
+          }
+        });
     };
-  }, []);
+  }, [courseGoals]);
 
   function startAddGoalHandler() {
     setModalIsVisible(!modalIsVisible);
@@ -123,6 +94,7 @@ function App() {
           visible={modalIsVisible}
           setVisible={setModalIsVisible}
           setCourseGoals={setCourseGoals}
+          courseGoals={courseGoals}
         />
       )}
       <View style={styles.goalsContainer}>

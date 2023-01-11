@@ -10,8 +10,15 @@ import {
   Image,
 } from "react-native";
 import Colors from "./Colors";
+import storage from "../storage";
 
-function GoalInput({ addGoalHandler, visible, setVisible, setCourseGoals }) {
+function GoalInput({
+  addGoalHandler,
+  visible,
+  setVisible,
+  setCourseGoals,
+  courseGoals,
+}) {
   const [enteredGoalText, setEnteredGoalText] = useState("");
   const { height, width } = useWindowDimensions();
 
@@ -22,6 +29,18 @@ function GoalInput({ addGoalHandler, visible, setVisible, setCourseGoals }) {
   function addGoalBtnHandler() {
     addGoalHandler(enteredGoalText);
     setEnteredGoalText("");
+
+    // 여기서 async storage와 coursegoals를 동기화
+    storage.save({
+      key: "todos", // Note: Do not use underscore("_") in key!
+      data: {
+        courseGoals: courseGoals,
+      },
+
+      // if expires not specified, the defaultExpires will be applied instead.
+      // if set to null, then it will never expire.
+      expires: null,
+    });
   }
 
   function cancelBtnHandler() {
@@ -40,6 +59,18 @@ function GoalInput({ addGoalHandler, visible, setVisible, setCourseGoals }) {
       },
       { text: "No" },
     ]);
+
+    // 여기서 async storage와 coursegoals를 동기화
+    storage.save({
+      key: "todos", // Note: Do not use underscore("_") in key!
+      data: {
+        courseGoals: courseGoals,
+      },
+
+      // if expires not specified, the defaultExpires will be applied instead.
+      // if set to null, then it will never expire.
+      expires: null,
+    });
   }
 
   return (
