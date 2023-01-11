@@ -28,7 +28,6 @@ function App() {
 
   useEffect(() => {
     // mount
-
     storage
       .load({
         key: "todos",
@@ -56,6 +55,7 @@ function App() {
       .then((ret) => {
         // found data go to then()
         console.log(ret.courseGoals);
+        setCourseGoals([...ret.courseGoals]);
       })
       .catch((err) => {
         // any exception including data not found
@@ -64,6 +64,7 @@ function App() {
         switch (err.name) {
           case "NotFoundError":
             // TODO;
+            console.log("ERROR : not found error");
             break;
           case "ExpiredError":
             // TODO
